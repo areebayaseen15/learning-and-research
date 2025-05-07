@@ -83,13 +83,6 @@ Chinese (Simplified)
 
 Russian
 
-💡 Future Enhancements
-Add a route like /greet/{language} to get greetings in a specific language.
-
-Implement emojis or flag icons in the response.
-
-Return the greeting message in audio or HTML format for a richer experience.
-
 Happy coding with FastAPI and uv! 🚀
 
 
