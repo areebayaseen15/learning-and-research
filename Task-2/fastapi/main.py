@@ -1,13 +1,14 @@
 
-import random
+import random    
 from fastapi import FastAPI
 
 
 app = FastAPI()
 
-
+#basic greet message
 simple_greet = "Hello World"
 
+#greet message in multiplle languages
 greet_in_Diffrent_Lang = [
      {"language": "English", "message": "Hello World"},
         {"language": "Spanish", "message": "Hola Mundo"},
