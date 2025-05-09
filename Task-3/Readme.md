@@ -20,10 +20,10 @@ This project demonstrates how to build a FastAPI application while practicing va
 Below are three examples demonstrating core Pydantic features.
 
 ---
-
-### 🧩 Example 1: Basic `BaseModel` Usage pydantic_example_1.py
-
-```python
+ Example 1: Basic Pydantic Model
+python
+Copy
+Edit
 from pydantic import BaseModel
 
 class Student(BaseModel):
@@ -32,14 +32,14 @@ class Student(BaseModel):
     roll_num: int
     email: str 
     age: int | None = None
-
 Validates incoming fields and types
-
 Automatically serializes and deserializes JSON data
-
 Catches errors if types do not match (e.g., int as string)
 
-🧱 Example 2: Nested Models  pydantic_example_2.py
+🧱 Example 2: Nested Models pydantic_example_2.py
+python
+Copy
+Edit
 from pydantic import BaseModel
 from typing import List
 
@@ -53,10 +53,12 @@ class Student(BaseModel):
     roll_num: int
     courses: List[Course]
 Models inside models (nested data)
-
 Useful for real-world relationships like students & courses
 
-🧪 Example 3: Custom Validator      pydantic_example_3.py
+🧪 Example 3: Custom Validator pydantic_example_3.py
+python
+Copy
+Edit
 from pydantic import BaseModel, EmailStr, field_validator
 from typing import List
 
@@ -77,119 +79,103 @@ class StudentAddress(BaseModel):
             raise ValueError("Name must be at least 2 characters long.")
         return v
 Validates email using EmailStr
-
 Custom validator ensures name has at least 2 characters
 
-Step 2: Building a FastAPI Application with Complex Pydantic Models
-💬 Chatbot API with FastAPI
-Using all the concepts above, a chatbot API was built using FastAPI and complex Pydantic models.
+💬 Step 2: Building a FastAPI Application with Complex Pydantic Models
+A chatbot API was built using FastAPI and complex Pydantic models.
 
 📁 File: main.py
-Endpoints:
-GET / → Root message
 
-GET /user/{user_id} → Returns user info with optional role
-
-POST /chat/ → Takes in message and replies back
-
-Models used:
-Metadata: Generates timestamp and unique session ID
-
-Message: Takes in text, user ID, metadata, and tags
-
-Response: Returns reply along with metadata
-
-▶️ How to Run This Project
-📦 Step-by-step Commands:
-Install FastAPI & Uvicorn:
-
-bash
+📄 Create the Main Application File
+python
 Copy
-pip install fastapi uvicorn
-Run the FastAPI App:
-
-bash
-Copy
-uvicorn main:app --reload
-Open in Browser:
-
-Visit 👉 http://127.0.0.1:8000/docs to test API in Swagger UI
-
-📄Create the Main Application File
-
-#Import and setup
+Edit
+# Import and setup
 from fastapi import FastAPI , HTTPException
 from pydantic import BaseModel, Field
 from datetime import datetime , UTC
 from uuid import uuid4        
-
-# FastAPI: Main framework to create APIs.
-# HTTPException: to throw Error
-# BaseModel & Field: to create Pydantic models .
-# datetime & UUID: to create timely based  unique session.
-
-
-# 2.App initialization
+python
+Copy
+Edit
+# 2. App initialization
 app = FastAPI(
     title="DACA Chatbot APi",
     description="A FastAPI-based API for a chatbot in the DACA tutorial series",
     version="0.1.0",
 )
-
-# 3.Pydantic Models
+python
+Copy
+Edit
+# 3. Pydantic Models
 class Metadata(BaseModel):
     timestamp: datetime = Field(default_factory=lambda:datetime.now(tz=UTC))
     session_id : str =Field(default_factory=lambda:str(uuid4()))
-
-#meassage model
+python
+Copy
+Edit
+# Message model
 class Message(BaseModel):
     text :str
     user_id : str
     metadata : Metadata
-    tags : list[str] | None = None  #optional
-
-#response model
+    tags : list[str] | None = None  # optional
+python
+Copy
+Edit
+# Response model
 class Response(BaseModel):
     user_id: str
     reply: str
     metadata: Metadata
-
-
-#4.Routes
+python
+Copy
+Edit
+# 4. Routes
 @app.get("/")
 async def root():
     return {"message": "Welcome to the DACA Chatbot API"}
-
-
+python
+Copy
+Edit
 @app.get("/users/{user_id}")
-async def get_user(user_id:str ,role:str | None = None):  # user_id: path se aata hai.
-# role: optional query param. Agar nahi diya gaya to "guest" ban jata hai.
-    user_info= {"user_id": user_id, "role": role if role else "guest"}   
+async def get_user(user_id: str, role: str | None = None):
+    user_info = {"user_id": user_id, "role": role if role else "guest"}
     return user_info
-
-
-#Post Chat
-
+python
+Copy
+Edit
 @app.post("/chat", response_model=Response)
-async def Chat(message:Message):
+async def Chat(message: Message):
     if not message.text.strip():
         raise HTTPException(status_code=400 , detail = "Message can not be empty")
     reply_text = f"Hello, {message.user_id}! You said: '{message.text}'. How can I assist you today?"
     return Response(user_id=message.user_id, reply=reply_text, metadata=Metadata())
-
-Explanation of the Code
+🔍 Explanation of the Code
 Complex Pydantic Models:
 
-Metadata: A nested model with a timestamp (defaults to current UTC time) and session_id (defaults to a UUID).
-Message: The request model, including user_id, text, metadata (nested Metadata), and optional tags.
-Response: The response model, returning user_id, reply, and metadata.
-Endpoint Updates:
+Metadata: Nested model with a timestamp and a unique session ID
 
-The /chat/ endpoint now accepts a Message with nested Metadata and returns a Response with similar structure.
-Run Code
-fastapi dev main.py
+Message: The request model includes user_id, text, metadata, and optional tags
 
+Response: The response model returning user_id, reply, and metadata
+
+Endpoint Highlights:
+
+/chat/: Accepts Message, returns Response with nested metadata
+
+▶️ How to Run This Project
+bash
+Copy
+Edit
+pip install fastapi uvicorn
+bash
+Copy
+Edit
+uvicorn main:app --reload
+Visit 👉 http://127.0.0.1:8000/docs to test API in Swagger UI
 
 👩‍💻 Created By
 Areeba Yaseen
 “Learning FastAPI with real-world examples!”
+
