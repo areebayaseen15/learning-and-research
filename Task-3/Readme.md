@@ -21,7 +21,7 @@ Below are three examples demonstrating core Pydantic features.
 
 ---
 
-✅ Example 1: Basic Pydantic Model
+✅ **Example 1: Basic Pydantic Model**
 
 ```python
 from pydantic import BaseModel
@@ -56,7 +56,7 @@ class Student(BaseModel):
 Models inside models (nested data)
 Useful for real-world relationships like students & courses
 
-🧪 Example 3: Custom Validator
+✅ Example 3: Custom Validator
 
 python
 Copy
@@ -88,7 +88,7 @@ A chatbot API was built using FastAPI and complex Pydantic models.
 
 📁 File: main.py
 
-🧱 Import and Setup
+📦 Import and Setup
 python
 Copy
 Edit
@@ -105,7 +105,7 @@ app = FastAPI(
     description="A FastAPI-based API for a chatbot in the DACA tutorial series",
     version="0.1.0",
 )
-📦 Pydantic Models
+📘 Pydantic Models
 python
 Copy
 Edit
@@ -157,14 +157,12 @@ Message: Request model includes user_id, text, metadata, and optional tags
 
 Response: Response model returning user_id, reply, and metadata
 
-Endpoint Highlights
+🔑 Endpoint Highlights
 /chat/: Accepts Message, returns Response with nested metadata
 
 /users/{user_id}: Returns user info with optional role
 
 ▶️ How to Run This Project
-Run the app:
-
 bash
 Copy
 Edit
