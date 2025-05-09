@@ -24,13 +24,14 @@ Below are three examples demonstrating core Pydantic features.
 ✅ **Example 1: Basic Pydantic Model**
   checkout pydantic_example_1.py file
 
-🧱 Example 2: Nested Models
+🧱 **Example 2: Nested Models**
 checkout pydantic_example_1.py file
 
-✅ Example 3: Custom Validator
+✅ **Example 3: Custom Validator**
 checkout pydantic_example_3.py file
 
-💬 Step 2: Building a FastAPI Application with Complex Pydantic Models
+---
+💬 **Step 2: Building a FastAPI Application with Complex Pydantic Models**
 A chatbot API was built using FastAPI and complex Pydantic models.
 
 📁 File: main.py
@@ -48,7 +49,7 @@ Response: Response model returning user_id, reply, and metadata
 
 /users/{user_id}: Returns user info with optional role
 
-▶️ How to Run This Project
+▶️ **How to Run This Project**
 
 fastapi dev main.py
 
