@@ -19,7 +19,7 @@ In FastAPI, **parameters** are values sent with the HTTP request which the backe
 These are passed as part of the URL and are commonly used to identify a specific resource.
 
 ### ✅ Example:
-```python
+```
 from fastapi import FastAPI, Path
 
 app = FastAPI()
@@ -30,6 +30,7 @@ def get_user(
     name: str = Path(..., min_length=2, max_length=30, title="User Name")
 ):
     return {"id": id, "name": name}
+```
 
 ----
 🔍 Explanation:
@@ -44,7 +45,7 @@ These come after the ? in the URL and are passed as key-value pairs.
 ----
 
 ✅ Example:
-python
+```python
 Copy
 Edit
 from fastapi import FastAPI, Query
@@ -62,7 +63,7 @@ bash
 Copy
 Edit
 /student?id=1&name=Areeba
-
+```
 ----
 
 3️⃣ Body Parameters
@@ -71,7 +72,7 @@ Used to receive structured data like JSON in the request body, usually via a POS
 ----
 
 ✅ Example:
-python
+```python
 Copy
 Edit
 from fastapi import FastAPI, Body
@@ -87,12 +88,14 @@ class User(BaseModel):
 @app.post("/new_user")
 def create_user(user: User = Body(...)):
     return {"user": user}
+```
+
 4️⃣ Path + Query + Body Combined
 You can combine all three types in a single API.
 ----
 
 ✅ Example:
-python
+```python
 Copy
 Edit
 @app.post("/new_student/{age}")
@@ -105,13 +108,14 @@ def create_student(
         "age": age,
         "query": q,
         "user": user
-    }
+    }```
+
 5️⃣ Header Parameters
 Headers carry meta-information like tokens, User-Agent, etc.
 ----
 
 ✅ Example:
-python
+```python
 Copy
 Edit
 from fastapi import Header
@@ -122,11 +126,13 @@ def get_headers(user_agent: str = Header(...), token: str = Header(None)):
         "User-Agent": user_agent,
         "Token": token
     }
+```
+
 6️⃣ Cookie Parameters
 Cookies are stored in the browser and sent automatically with requests.
 ----
 ✅ Example:
-python
+```python
 Copy
 Edit
 from fastapi import Cookie
@@ -134,25 +140,27 @@ from fastapi import Cookie
 @app.get("/get-cookie/")
 def get_cookie(session_id: str = Cookie(None)):
     return {"Session ID": session_id}
+```
 
 7️⃣ Form Data
 Form fields submitted using HTML forms with application/x-www-form-urlencoded content type.
 ----
 ✅ Example:
-python
+```python
 Copy
 Edit
 from fastapi import Form
 
 @app.post("/submit-form/")
 def submit_form(name: str = Form(...), email: str = Form(...)):
-    return {"name": name, "email": email}
+    return {"name": name, "email": email}```
+
 8️⃣ File Uploads
 Used to receive files uploaded via forms using multipart/form-data.
 ----
 
 ✅ Example:
-python
+```python
 Copy
 Edit
 from fastapi import File, UploadFile
@@ -162,17 +170,17 @@ def upload_file(file: UploadFile = File(...)):
     return {
         "filename": file.filename,
         "content_type": file.content_type
-    }
+    }```
 ----
 ✅ Summary of Parameters
-Parameter Type	Where It Comes From	Use Case Example
-Path	URL path	/user/10
-Query	URL query string	?name=Areeba
-Body	Request body (JSON)	{"name": "Ali"}
-Header	HTTP headers	Auth tokens
-Cookie	Browser cookies	Sessions
-Form	HTML form fields	name=email
-File	File upload	.pdf, .png
+Parameter              Type	WhereIt Comes From	      Use Case Example
+Path	               URL path                        /user/10
+Query	               URL query string	               ?name=Areeba
+Body	               Request body (JSON)	          {"name": "Ali"}
+Header                	HTTP headers	                Auth tokens
+Cookie               	Browser cookies	              Sessions/login
+Form	               HTML form                       fields	name=email
+File	                File upload	                   .pdf, .png
 
 📂 Check the main.py file to see example implementations of each parameter type.
 
