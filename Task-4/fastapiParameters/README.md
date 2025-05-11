@@ -46,8 +46,6 @@ These come after the ? in the URL and are passed as key-value pairs.
 
 ✅ Example:
 ```python
-Copy
-Edit
 from fastapi import FastAPI, Query
 
 app = FastAPI()
@@ -59,9 +57,7 @@ def get_student(
 ):
     return {"id": id, "name": name}
 🔍 URL Format:
-bash
-Copy
-Edit
+
 /student?id=1&name=Areeba
 ```
 ----
@@ -73,8 +69,7 @@ Used to receive structured data like JSON in the request body, usually via a POS
 
 ✅ Example:
 ```python
-Copy
-Edit
+
 from fastapi import FastAPI, Body
 from pydantic import BaseModel
 
@@ -96,8 +91,7 @@ You can combine all three types in a single API.
 
 ✅ Example:
 ```python
-Copy
-Edit
+
 @app.post("/new_student/{age}")
 def create_student(
     age: int = Path(..., ge=1, le=120),
@@ -116,8 +110,7 @@ Headers carry meta-information like tokens, User-Agent, etc.
 
 ✅ Example:
 ```python
-Copy
-Edit
+
 from fastapi import Header
 
 @app.get("/get-header/")
@@ -133,8 +126,7 @@ Cookies are stored in the browser and sent automatically with requests.
 ----
 ✅ Example:
 ```python
-Copy
-Edit
+
 from fastapi import Cookie
 
 @app.get("/get-cookie/")
@@ -147,8 +139,7 @@ Form fields submitted using HTML forms with application/x-www-form-urlencoded co
 ----
 ✅ Example:
 ```python
-Copy
-Edit
+
 from fastapi import Form
 
 @app.post("/submit-form/")
@@ -161,8 +152,7 @@ Used to receive files uploaded via forms using multipart/form-data.
 
 ✅ Example:
 ```python
-Copy
-Edit
+
 from fastapi import File, UploadFile
 
 @app.post("/upload-file/")
@@ -182,5 +172,5 @@ Cookie               	Browser cookies	              Sessions/login
 Form	               HTML form                       fields	name=email
 File	                File upload	                   .pdf, .png
 
-📂 Check the main.py file to see example implementations of each parameter type.
+📂 Check the main.py and app.py file to see example implementations of each parameter type.
 
