@@ -216,3 +216,5 @@ def add_item(item: str, db: list = Depends(get_db_session)):
 🧱 You can inject functions, classes, or even connect to a database.
 
 📦 You can reuse the same logic across multiple routes.
+Checkout related blog:
+https://medium.com/@areebayaseen15/dependency-injection-in-fastapi-simplify-your-code-like-a-pro-810b8ce80660
