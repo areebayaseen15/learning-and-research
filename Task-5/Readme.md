@@ -1,16 +1,19 @@
- ***Dependency Injection in FastAPI***
-🔍 What is Dependency Injection?
-Dependency Injection (DI) is a design pattern used to separate object creation from its usage. Instead of creating objects directly in functions, you "inject" them. This makes your code:
+# Dependency Injection in FastAPI
 
-Easier to test
+## 🔍 What is Dependency Injection?
 
-More modular
+**Dependency Injection (DI)** is a design pattern used to separate object creation from its usage. Instead of creating objects directly in functions, you "inject" them. This makes your code:
 
-Cleaner and DRY (Don't Repeat Yourself)
+- Easier to test  
+- More modular  
+- Cleaner and DRY (Don't Repeat Yourself)
 
 FastAPI has built-in support for dependency injection. Just like in other languages (e.g., Java, JavaScript, Python), DI helps keep logic separate and reusable.
 
-📘 Basic Example
+---
+
+## 📘 Basic Example
+
 ```python
 from fastapi import FastAPI, Depends
 
@@ -25,15 +28,18 @@ def get_service():
 
 @app.get("/")
 def read_root(service: Service = Depends(get_service)):
-    return {"message": service.get_message()}```
+    return {"message": service.get_message()}
+```
+
 ✅ In this example:
 
 get_service() is a dependency provider.
 
 FastAPI automatically injects Service into the route handler.
----
+
 🧪 Input Validation with Dependencies
 ```python
+
 from fastapi import FastAPI, Depends, Query
 
 app = FastAPI()
@@ -44,13 +50,18 @@ def user_dep(name: str = Query(None), password: str = Query(None)) -> dict:
 @app.get("/user")
 def get_user(user: dict = Depends(user_dep)):
     return user
+
 ```
 This shows how to use query parameters as dependencies.
-
 DI makes parameter validation reusable.
 
 ✅ Login Example using Dependency Injection
 ```python
+
+from fastapi import Query, Depends, FastAPI
+
+app = FastAPI()
+
 def dep_login(username: str = Query(None), password: str = Query(None)):
     if username == "admin" and password == "admin":
         return {"message": "Login successful"}
@@ -59,23 +70,31 @@ def dep_login(username: str = Query(None), password: str = Query(None)):
 
 @app.get("/sign")
 def get_login(user: dict = Depends(dep_login)):
-    return user```
+    return user
+```
 
----
 ⛔ Dependency Without Return (Just Check)
 ```python
+
+from fastapi import FastAPI, Query, Depends, HTTPException
+
+app = FastAPI()
+
 def dep_check(name: str = Query(None), password: str = Query(None)):
     if not name:
         raise HTTPException(status_code=400, detail="Name is required")
 
 @app.get("/login", dependencies=[Depends(dep_check)])
 def login():
-    return True```
-
+    return True
+```
 If a function doesn’t return anything but is still necessary (e.g., validation), you can directly inject it using dependencies=[].
----
+
 🔁 Global Dependencies (Multiple Routes)
 ```python
+
+from fastapi import FastAPI, Depends
+
 def depfunc1(num: int):
     return num + 1
 
@@ -89,10 +108,13 @@ def get_main(num: int, num1: int = Depends(depfunc1), num2: int = Depends(depfun
     total = num + num1 + num2
     return f"Pakistan{total}"
 ```
----
+
 📚 Injecting from Mock Database (Dict)
 ```python
-from fastapi import HTTPException, status
+
+from fastapi import FastAPI, Depends, HTTPException, status
+
+app = FastAPI()
 
 blogs = {
     "1": "Generative AI",
@@ -123,11 +145,15 @@ def get_blogs(blog_name: str = Depends(get_blog)):
 
 @app.get("/users/{id}")
 def get_users(user_name: str = Depends(get_user)):
-    return user_name```
----
+    return user_name
+```
+
 👨‍🏫 Dependency Injection using Classes
 ```python
-from fastapi import HTTPException, status
+
+from fastapi import FastAPI, Depends, HTTPException, status
+
+app = FastAPI()
 
 blogs = {
     "1": "Generative AI",
@@ -139,6 +165,7 @@ users = {
     "8": "Areeba",
     "9": "Amna",
 }
+
 class GetObjectOr404:
     def __init__(self, model):
         self.model = model
@@ -158,12 +185,18 @@ def get_blog(blog_name: str = Depends(blog_dependency)):
 
 @app.get("/user/{id}")
 def get_user(user_name: str = Depends(user_dependency)):
-    return user_name```
------
+    return user_name
+```
+
 You can use classes to create reusable and efficient dependency handlers.
 
 🗃 Simulated Database Session Example
 ```python
+
+from fastapi import FastAPI, Depends
+
+app = FastAPI()
+
 development_db = ["DB for development"]
 
 def get_db_session():
@@ -172,8 +205,9 @@ def get_db_session():
 @app.get("/add_item")
 def add_item(item: str, db: list = Depends(get_db_session)):
     db.append(item)
-    return {"message": f"Added item {item}, all items: {db}"}```
----
+    return {"message": f"Added item {item}, all items: {db}"}
+```
+
 🧠 Summary
 ✅ Dependency Injection helps write modular, testable, and DRY code.
 
